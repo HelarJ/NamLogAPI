@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(path = "/log", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/log", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LogController {
 
     @Autowired
