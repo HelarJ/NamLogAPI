@@ -36,11 +36,6 @@
             <groupId>org.springframework.boot</groupId>
         </dependency>
         <dependency>
-            <artifactId>spring-boot-starter-cache</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-
-        <dependency>
             <artifactId>spring-boot-devtools</artifactId>
             <groupId>org.springframework.boot</groupId>
             <optional>true</optional>
