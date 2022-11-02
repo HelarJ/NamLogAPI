@@ -1,8 +1,7 @@
 package com.jaadla.namlogapi.repository;
 
 import com.jaadla.namlogapi.model.Message;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -10,7 +9,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageRepository extends PagingAndSortingRepository<Message, Integer> {
 
-  @Query("select m from Message m where m.username = ?1 order by m.id desc")
-  Page<Message> findByUsernameIgnoreCaseOrderByIdAsc(String username, Pageable pageable);
+  @Query(value = "SELECT max(id) from messages", nativeQuery = true)
+  int getMaxId();
 
+  @Query(value = "SELECT id, time, username, message from messages where username = :username AND id < :startIndex order by id desc limit :size", nativeQuery = true)
+  List<Message> findByUsername(String username, int startIndex, int size);
+
+  @Query(value = "SELECT id, time, username, message from messages where id < :startIndex order by id desc limit :size", nativeQuery = true)
+  List<Message> findAllMessages(int startIndex, int size);
+
+  @Query(value = "SELECT count(*) from messages where username = :username", nativeQuery = true)
+  int getMessageCountUser(String username);
 }
