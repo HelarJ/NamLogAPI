@@ -4,7 +4,6 @@ import com.jaadla.namlogapi.model.Page;
 import com.jaadla.namlogapi.service.LogService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.apachecommons.CommonsLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,17 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/log", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LogController {
 
-    @Autowired
-    LogService logService;
+    private final static int MAX_PAGE_SIZE = 20000;
+    private final LogService logService;
 
-    private final static int MAX_PAGE_SIZE = 2000;
+    public LogController(LogService logService) {
+        this.logService = logService;
+    }
 
     @GetMapping(value = "/{username}")
     @ResponseBody
     ResponseEntity<Page> getLog(
         @PathVariable String username,
         @RequestParam(defaultValue = "0") int startIndex,
-        @RequestParam(defaultValue = "100") int size) {
+        @RequestParam(defaultValue = "100") int size
+    ) {
         if (size > MAX_PAGE_SIZE) {
             size = MAX_PAGE_SIZE;
         }
@@ -42,6 +44,8 @@ public class LogController {
         }
 
         Page messages = logService.getMessages(username, startIndex, size);
+
+        log.info("Logs for %s, startID %d".formatted(username, startIndex));
         return ResponseEntity.ok(messages);
     }
 
@@ -56,7 +60,8 @@ public class LogController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleInvalidDataAccessApiUsageException(
-        InvalidDataAccessApiUsageException exception) {
+        InvalidDataAccessApiUsageException exception
+    ) {
 
         log.warn("Invalid Data Access: " + exception.getMessage());
         return ResponseEntity
@@ -67,7 +72,8 @@ public class LogController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleIllegalArgumentException(
-        IllegalArgumentException exception) {
+        IllegalArgumentException exception
+    ) {
 
         log.warn("Invalid Argument: " + exception.getMessage());
         return ResponseEntity
