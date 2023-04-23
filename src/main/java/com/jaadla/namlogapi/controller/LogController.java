@@ -1,8 +1,7 @@
 package com.jaadla.namlogapi.controller;
 
-import com.jaadla.namlogapi.model.Page;
+import com.jaadla.namlogapi.entity.Page;
 import com.jaadla.namlogapi.service.LogService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
@@ -47,13 +46,6 @@ public class LogController {
 
         log.info("Logs for %s, startID %d".formatted(username, startIndex));
         return ResponseEntity.ok(messages);
-    }
-
-    @GetMapping(value = "/")
-    @ResponseBody
-    String noUsername(HttpServletResponse response) {
-        response.setStatus(404);
-        return "no username.";
     }
 
 

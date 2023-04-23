@@ -1,4 +1,4 @@
-package com.jaadla.namlogapi.model;
+package com.jaadla.namlogapi.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,12 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
-@Setter
-@ToString
 @Entity
 @Table(name = "messages")
 public class Message {

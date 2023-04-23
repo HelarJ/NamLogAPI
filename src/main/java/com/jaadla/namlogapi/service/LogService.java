@@ -1,7 +1,7 @@
 package com.jaadla.namlogapi.service;
 
-import com.jaadla.namlogapi.model.Message;
-import com.jaadla.namlogapi.model.Page;
+import com.jaadla.namlogapi.entity.Message;
+import com.jaadla.namlogapi.entity.Page;
 import com.jaadla.namlogapi.repository.MessageRepository;
 import java.util.List;
 import lombok.extern.apachecommons.CommonsLog;
