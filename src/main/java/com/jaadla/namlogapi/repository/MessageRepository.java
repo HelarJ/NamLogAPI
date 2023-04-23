@@ -1,12 +1,10 @@
 package com.jaadla.namlogapi.repository;
 
-import com.jaadla.namlogapi.model.Message;
+import com.jaadla.namlogapi.entity.Message;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface MessageRepository extends PagingAndSortingRepository<Message, Integer> {
 
   @Query(value = "SELECT max(id) from messages", nativeQuery = true)

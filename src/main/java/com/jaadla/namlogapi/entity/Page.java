@@ -1,4 +1,4 @@
-package com.jaadla.namlogapi.model;
+package com.jaadla.namlogapi.entity;
 
 import java.io.Serializable;
 import java.util.List;
