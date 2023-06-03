@@ -1,6 +1,5 @@
-package com.jaadla.namlogapi
+package com.jaadla.namlogapi.log
 
-import com.jaadla.namlogapi.log.MessageRepository
 import org.springframework.stereotype.Service
 
 @Service
