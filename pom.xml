@@ -3,40 +3,112 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>NamLogAPI</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <configuration>
+          <layout>JAR</layout>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <version>${spring.boot.version}</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <sourceDirs>
+                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+              </sourceDirs>
+            </configuration>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <id>compile</id>
+          </execution>
+          <execution>
+            <configuration>
+              <sourceDirs>
+                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+              </sourceDirs>
+            </configuration>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+            <id>test-compile</id>
+          </execution>
+        </executions>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <version>${kotlin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+  <description>NamLogAPI</description>
+  <groupId>com.jaadla</groupId>
+  <modelVersion>4.0.0</modelVersion>
+  <name>NamLogAPI</name>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <url>https://repo.spring.io/milestone</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <dependencies>
     <dependency>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
     </dependency>
     <dependency>
       <artifactId>spring-boot-starter-security</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
     </dependency>
 
     <dependency>
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
     </dependency>
     <dependency>
       <artifactId>spring-boot-devtools</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
       <optional>true</optional>
       <scope>runtime</scope>
     </dependency>
+
     <dependency>
-      <artifactId>mariadb-java-client</artifactId>
       <groupId>org.mariadb.jdbc</groupId>
-      <scope>runtime</scope>
+      <artifactId>mariadb-java-client</artifactId>
+      <version>${mariadb.version}</version>
     </dependency>
 
     <dependency>
       <artifactId>spring-boot-configuration-processor</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <version>${spring.boot.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -46,7 +118,7 @@
       <version>5.9.2</version>
     </dependency>
     <dependency>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
+      <artifactId>kotlin-stdlib</artifactId>
       <groupId>org.jetbrains.kotlin</groupId>
       <version>${kotlin.version}</version>
     </dependency>
@@ -63,115 +135,18 @@
       <version>${kotlin.version}</version>
     </dependency>
 
-
-    <dependency>
-      <artifactId>h2</artifactId>
-      <groupId>com.h2database</groupId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
-  <description>NamLogAPI</description>
-  <groupId>com.jaadla</groupId>
-  <modelVersion>4.0.0</modelVersion>
-  <name>NamLogAPI</name>
-  <parent>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <groupId>org.springframework.boot</groupId>
-    <relativePath/>
-    <version>3.1.0</version>
-  </parent>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <url>https://repo.spring.io/milestone</url>
-    </pluginRepository>
-  </pluginRepositories>
+
+  <version>0.0.1-SNAPSHOT</version>
 
   <properties>
     <java.version>19</java.version>
     <kotlin.version>1.8.21</kotlin.version>
+    <mariadb.version>3.1.4</mariadb.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.boot.version>3.1.0</spring.boot.version>
+    <start-class>com.jaadla.namlogapi.NamLogApiApplication</start-class>
   </properties>
-  <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <url>https://repo.spring.io/milestone</url>
-    </repository>
-  </repositories>
 
-  <version>0.0.1-SNAPSHOT</version>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <groupId>org.springframework.boot</groupId>
-        <version>3.0.6</version>
-      </plugin>
-      <plugin>
-        <artifactId>kotlin-maven-plugin</artifactId>
-        <configuration>
-          <jvmTarget>19</jvmTarget>
-        </configuration>
-        <executions>
-          <execution>
-            <configuration>
-              <sourceDirs>
-                <source>src/main/java</source>
-                <source>target/generated-sources/annotations</source>
-              </sourceDirs>
-            </configuration>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <id>compile</id>
-            <phase>compile</phase>
-          </execution>
-          <execution>
-            <configuration>
-              <sourceDirs>
-                <source>src/test/java</source>
-                <source>target/generated-test-sources/test-annotations</source>
-              </sourceDirs>
-            </configuration>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-            <id>test-compile</id>
-            <phase>test-compile</phase>
-          </execution>
-        </executions>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <version>${kotlin.version}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <id>compile</id>
-            <phase>compile</phase>
-          </execution>
-          <execution>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <id>testCompile</id>
-            <phase>test-compile</phase>
-          </execution>
-        </executions>
-        <groupId>org.apache.maven.plugins</groupId>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
