@@ -1,6 +1,5 @@
-package com.jaadla.namlogapi
+package com.jaadla.namlogapi.log
 
-import com.jaadla.namlogapi.log.MessageEntity
 import org.apache.commons.logging.LogFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
