@@ -1,13 +1,12 @@
-package com.jaadla.namlogapi;
+package com.jaadla.namlogapi
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-public class NamLogApiApplication {
+open class NamLogApiApplication {
+}
 
-    public static void main(String[] args) {
-        SpringApplication.run(NamLogApiApplication.class, args);
-    }
-
+fun main(args: Array<String>) {
+    SpringApplication.run(NamLogApiApplication::class.java, *args)
 }

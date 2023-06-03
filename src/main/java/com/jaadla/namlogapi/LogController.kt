@@ -1,75 +1,44 @@
-package com.jaadla.namlogapi.controller;
+package com.jaadla.namlogapi
 
-import com.jaadla.namlogapi.entity.Page;
-import com.jaadla.namlogapi.service.LogService;
-import lombok.extern.apachecommons.CommonsLog;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import com.jaadla.namlogapi.log.MessageEntity
+import org.apache.commons.logging.LogFactory
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
 
-@CommonsLog
 @RestController
-@RequestMapping(path = "/api/log", produces = MediaType.APPLICATION_JSON_VALUE)
-public class LogController {
+@RequestMapping(path = ["/api/log"], produces = [MediaType.APPLICATION_JSON_VALUE])
+class LogController(private val logService: LogService) {
 
-    private final static int MAX_PAGE_SIZE = 20000;
-    private final LogService logService;
-
-    public LogController(LogService logService) {
-        this.logService = logService;
+    companion object {
+        private const val MAX_PAGE_SIZE = 20000
+        private val log = LogFactory.getLog(LogController::class.java.name)
     }
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = ["/{username}"])
     @ResponseBody
-    ResponseEntity<Page> getLog(
-        @PathVariable String username,
-        @RequestParam(defaultValue = "0") int startIndex,
-        @RequestParam(defaultValue = "100") int size
-    ) {
-        if (size > MAX_PAGE_SIZE) {
-            size = MAX_PAGE_SIZE;
+    fun getLog(
+            @PathVariable username: String,
+            @RequestParam(defaultValue = "0") startIndex: Int,
+            @RequestParam(defaultValue = "100") size: Int
+    ): Page {
+        var amount = size
+
+        if (amount > MAX_PAGE_SIZE) {
+            amount = MAX_PAGE_SIZE
         }
-        if (size < 0) {
-            size = 0;
+        if (amount < 0) {
+            amount = 0
         }
 
-        Page messages = logService.getMessages(username, startIndex, size);
-
-        log.info("Logs for %s, startID %d".formatted(username, startIndex));
-        return ResponseEntity.ok(messages);
+        val messages = logService.getMessages(username, startIndex, amount)
+        log.info("Logs for $username, startID $startIndex")
+        return messages
     }
 
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleInvalidDataAccessApiUsageException(
-        InvalidDataAccessApiUsageException exception
-    ) {
-
-        log.warn("Invalid Data Access: " + exception.getMessage());
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body("Bad request.");
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleIllegalArgumentException(
-        IllegalArgumentException exception
-    ) {
-
-        log.warn("Invalid Argument: " + exception.getMessage());
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body("Bad request.");
-    }
+    data class Page(
+            var messages: List<MessageEntity>,
+            var lastId: Int,
+            var finalPage: Boolean,
+            var totalMessages: Int,
+    )
 }
