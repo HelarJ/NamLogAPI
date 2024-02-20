@@ -29,8 +29,10 @@ class LogController(private val logService: LogService) {
             amount = 0
         }
 
+        val start = System.currentTimeMillis();
+
         val messages = logService.getMessages(username, startIndex, amount)
-        log.info("Logs for $username, startID $startIndex")
+        log.info("Logs for $username, startID $startIndex, count ${messages.messages.size}, DB took ${System.currentTimeMillis() - start} ms.")
         return messages
     }
 
