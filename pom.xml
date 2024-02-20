@@ -153,7 +153,7 @@
     <kotlin.version>1.9.22</kotlin.version>
     <mariadb.version>3.3.1</mariadb.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spring.boot.version>3.2.1</spring.boot.version>
+    <spring.boot.version>3.2.2</spring.boot.version>
     <start-class>com.jaadla.namlogapi.NamLogApiApplication</start-class>
   </properties>
 
